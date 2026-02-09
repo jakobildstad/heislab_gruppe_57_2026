@@ -46,6 +46,10 @@ Ligner på C++.
 // ... your declarations ...
 #endif
 ```
+eller 
+```
+#pragma once
+```
 
 **static** static int tall = 0;     Dette gjør at tall bare er definert innad i filen.
 
