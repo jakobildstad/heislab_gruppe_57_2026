@@ -1,0 +1,18 @@
+\doxysection{elev\+\_\+test.\+c}
+\hypertarget{elev__test_8c_source}{}\label{elev__test_8c_source}\index{source/driver/elev\_test.c@{source/driver/elev\_test.c}}
+\mbox{\hyperlink{elev__test_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{elevio_8h}{elevio.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00003}\mbox{\hyperlink{elev__test_8c_a840291bc02cba5474a4cb46a9b9566fe}{00003}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{elev__test_8c_a840291bc02cba5474a4cb46a9b9566fe}{main}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00004}00004\ \ \ \ \ \mbox{\hyperlink{elevio_8c_acec5e6d14134b881216887fe15aca830}{elevio\_init}}();}
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00006}00006\ \ \ \ \ \textcolor{keywordflow}{while}(1)\{}
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00007}00007\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{elevio_8c_ab2e6dcf199387c1dd6f78e2bf6fff56e}{elevio\_motorDirection}}(\mbox{\hyperlink{elevio_8h_ab0dd3595d7049b92115a766f0ea6f7e0a3164bca805ecbf4446a19625a7b55411}{DIRN\_DOWN}});}
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{elevio_8c_a6c30a3c0241ebf37a9014679e1bf288d}{elevio\_floorSensor}}()\ !=\ 0)\{\}}
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00009}00009\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{elevio_8c_ab2e6dcf199387c1dd6f78e2bf6fff56e}{elevio\_motorDirection}}(\mbox{\hyperlink{elevio_8h_ab0dd3595d7049b92115a766f0ea6f7e0a92f9028d3af929e10b735b77e0c8de60}{DIRN\_UP}});}
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{elevio_8c_a6c30a3c0241ebf37a9014679e1bf288d}{elevio\_floorSensor}}()\ !=\ 3)\{\}}
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00011}00011\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elev__test_8c_source_l00012}00012\ \}}
+
+\end{DoxyCode}

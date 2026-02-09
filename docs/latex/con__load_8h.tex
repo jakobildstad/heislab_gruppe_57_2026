@@ -1,0 +1,118 @@
+\doxysection{source/driver/con\+\_\+load.h File Reference}
+\hypertarget{con__load_8h}{}\label{con__load_8h}\index{source/driver/con\_load.h@{source/driver/con\_load.h}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$strings.\+h$>$}\newline
+Include dependency graph for con\+\_\+load.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=279pt]{con__load_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=216pt]{con__load_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{con__load_8h_a00bdde8cedf3b0de4c0f6bccd371d5c7}{con\+\_\+load}}(file,  cases)
+\item 
+\#define \mbox{\hyperlink{con__load_8h_ab1e3bd7368080d9f54db59a912503f57}{con\+\_\+val}}(key,  var,  fmt)
+\item 
+\#define \mbox{\hyperlink{con__load_8h_ac87f8588861575db8e11c8f5bc7a5df1}{con\+\_\+enum}}(key,  var,  match\+\_\+cases)
+\item 
+\#define \mbox{\hyperlink{con__load_8h_a341d68320884430a0bf588bbb7c77235}{con\+\_\+match}}(id)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{con__load_8h_ac87f8588861575db8e11c8f5bc7a5df1}\label{con__load_8h_ac87f8588861575db8e11c8f5bc7a5df1} 
+\index{con\_load.h@{con\_load.h}!con\_enum@{con\_enum}}
+\index{con\_enum@{con\_enum}!con\_load.h@{con\_load.h}}
+\doxysubsubsection{\texorpdfstring{con\_enum}{con\_enum}}
+{\footnotesize\ttfamily \#define con\+\_\+enum(\begin{DoxyParamCaption}\item[{}]{key,  }\item[{}]{var,  }\item[{}]{match\+\_\+cases }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(!strcasecmp(\_key,\ key))\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ typeof(*var)\ \_v;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ match\_cases\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ *var\ =\ \_v;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{con__load_8h_source_l00069}{69}} of file \mbox{\hyperlink{con__load_8h_source}{con\+\_\+load.\+h}}.
+
+\Hypertarget{con__load_8h_a00bdde8cedf3b0de4c0f6bccd371d5c7}\label{con__load_8h_a00bdde8cedf3b0de4c0f6bccd371d5c7} 
+\index{con\_load.h@{con\_load.h}!con\_load@{con\_load}}
+\index{con\_load@{con\_load}!con\_load.h@{con\_load.h}}
+\doxysubsubsection{\texorpdfstring{con\_load}{con\_load}}
+{\footnotesize\ttfamily \#define con\+\_\+load(\begin{DoxyParamCaption}\item[{}]{file,  }\item[{}]{cases }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ FILE*\ \_f\ =\ fopen(file,\ \textcolor{stringliteral}{"{}r"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ if(\_f)\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ \_line[128]\ =\ \{0\};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ while(fgets(\_line,\ 128,\ \_f))\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ if(!strncmp(\_line,\ \textcolor{stringliteral}{"{}-\/-\/"{}},\ 2))\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ \_key[64];\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ \_val[64];\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sscanf(\_line,\ \textcolor{stringliteral}{"{}-\/-\/\%s\ \%s"{}},\ \_key,\ \_val);\ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cases\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Unable\ to\ open\ config\ file\ \%s\(\backslash\)n"{}},\ file);\ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{con__load_8h_source_l00044}{44}} of file \mbox{\hyperlink{con__load_8h_source}{con\+\_\+load.\+h}}.
+
+\Hypertarget{con__load_8h_a341d68320884430a0bf588bbb7c77235}\label{con__load_8h_a341d68320884430a0bf588bbb7c77235} 
+\index{con\_load.h@{con\_load.h}!con\_match@{con\_match}}
+\index{con\_match@{con\_match}!con\_load.h@{con\_load.h}}
+\doxysubsubsection{\texorpdfstring{con\_match}{con\_match}}
+{\footnotesize\ttfamily \#define con\+\_\+match(\begin{DoxyParamCaption}\item[{}]{id }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(!strcasecmp(\_val,\ \#\textcolor{keywordtype}{id}))\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \_v\ =\ id;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{con__load_8h_source_l00076}{76}} of file \mbox{\hyperlink{con__load_8h_source}{con\+\_\+load.\+h}}.
+
+\Hypertarget{con__load_8h_ab1e3bd7368080d9f54db59a912503f57}\label{con__load_8h_ab1e3bd7368080d9f54db59a912503f57} 
+\index{con\_load.h@{con\_load.h}!con\_val@{con\_val}}
+\index{con\_val@{con\_val}!con\_load.h@{con\_load.h}}
+\doxysubsubsection{\texorpdfstring{con\_val}{con\_val}}
+{\footnotesize\ttfamily \#define con\+\_\+val(\begin{DoxyParamCaption}\item[{}]{key,  }\item[{}]{var,  }\item[{}]{fmt }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(!strcasecmp(\_key,\ key))\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ sscanf(\_val,\ fmt,\ var);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{con__load_8h_source_l00063}{63}} of file \mbox{\hyperlink{con__load_8h_source}{con\+\_\+load.\+h}}.
+
