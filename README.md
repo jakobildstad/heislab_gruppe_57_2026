@@ -3,7 +3,7 @@
 ## Dokumentasjon
 Hver modul i V-diagrammet våres tilsvarer en modul i C (altså en .h og .c fil)
 
-Skriv
+For dokumentasjon, skriv
 ```
 doxygen Doxyfile
 cd docs/html && python3 -m http.server 6767
@@ -37,9 +37,7 @@ Ligner på C++.
 **Header**: Hver "modul" har en .h og en .c fil. I .h (header) deklarerer man og sier da hva andre moduler som importerer denne kan se. I .c-filen definerer man funksjonen
 
 **typedef enum**: Her defineres en type. navnet på typen er det som kommer etter } (feks. MotorDirection). MotorDirection blir da en type som gjør at man kan bruke de definerte konstantene feks DIRN_DOWN som verdi. Eksempel:
-```
 
-```
 
 **Header guards**:
 ```
