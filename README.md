@@ -14,8 +14,20 @@ cd docs/html && python3 -m http.server 6767
 ```
 fra roten i prosjektet og åpne ```http://localhost:6767``` i nettleseren.
 
-### driver
+### Hvordan bruke simulator
+Kjør følgende kommandoer i terminal
+``` chmod +x SimElevatorServer``` første gang
+```./SimElevatorServer```
+Åpne en annen terminal og skriv
+```make && ./elevator```
 
+
+**Bruk:**
+- Heisknapp (opp) : qwe
+- Heisknapp (ned) : sdf
+- Heisknapp (inne) : zxcv
+- Obstruksjonsknapp :-
+- Stoppknapp : p
 
 
 # Notater til heisprosjekt
