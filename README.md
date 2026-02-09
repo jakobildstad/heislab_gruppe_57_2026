@@ -1,9 +1,5 @@
 # Heisprosjekt Gruppe 57 Jakob og Torkel 2026
 
-... Her er readme
-
-
-
 ## Dokumentasjon
 Hver modul i V-diagrammet våres tilsvarer en modul i C (altså en .h og .c fil)
 
