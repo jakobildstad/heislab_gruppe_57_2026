@@ -26,7 +26,5 @@ void lights_update(void) {
     if (current_floor >= 0) {
         lights_update_floor_indicator(current_floor);
     }
-    // Update stop lamp based on stop button state.
-    lights_update_stop_lamp(elevio_stopButton());
-    // Door lamp should be controlled by the FSM based on state, so we don't update it here.
+    // Stop lamp and door lamp are controlled by the FSM, not here.
 }

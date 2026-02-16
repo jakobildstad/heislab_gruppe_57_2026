@@ -24,6 +24,6 @@ void lights_update_stop_lamp(int value);
 /**
  * @brief Updates all lights: order lamps, floor indicator, and stop lamp.
  *
- * Does not update door lamp — that is controlled by the FSM.
+ * Does not update door lamp or stop lamp — that is controlled by the FSM.
  */
 void lights_update(void);

@@ -60,3 +60,8 @@ int orders_should_stop(int floor, MotorDirection dirn);
  * @return DIRN_UP, DIRN_DOWN, or DIRN_STOP.
  */
 MotorDirection orders_choose_direction(int floor, MotorDirection dirn);
+
+/**
+ * @brief Updates the order list by checking the state of all buttons.
+ */
+void orders_update(void);

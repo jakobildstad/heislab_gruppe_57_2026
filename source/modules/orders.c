@@ -13,6 +13,17 @@ void orders_init(void) {
     }
 }
 
+void orders_update(void) {
+    // Check for new orders from buttons and add them to the order list
+    for (int f = 0; f < N_FLOORS; f++) {
+        for (int b = 0; b < N_BUTTONS; b++) {
+            if (elevio_callButton(f, b)) {
+                orders_set(f, b);
+            }
+        }
+    }
+}
+
 void orders_set(int floor, ButtonType button) {
     orders[floor][button] = 1;
 }
@@ -52,7 +63,25 @@ int orders_should_stop(int floor, MotorDirection dirn) {
     else if (orders[floor][BUTTON_HALL_UP] && dirn == DIRN_UP) {
         return 1; // stopp for hall-up bestillinger når vi kjører opp
     }
-    return 0; // ellers, ikke stopp
+
+    // Stopp hvis det finnes en bestilling her og ingen bestillinger lenger frem
+    int ordersAhead = 0;
+    if (dirn == DIRN_UP) {
+        for (int i = floor + 1; i < N_FLOORS; i++)
+            for (int j = 0; j < N_BUTTONS; j++)
+                if (orders[i][j]) { ordersAhead = 1; break; }
+    } else if (dirn == DIRN_DOWN) {
+        for (int i = floor - 1; i >= 0; i--)
+            for (int j = 0; j < N_BUTTONS; j++)
+                if (orders[i][j]) { ordersAhead = 1; break; }
+    }
+    if (!ordersAhead) {
+        for (int j = 0; j < N_BUTTONS; j++)
+            if (orders[floor][j]) return 1;
+    }
+
+    return 0; // ingen grunn til å stoppe
+
 }
 
 MotorDirection orders_choose_direction(int floor, MotorDirection dirn) {
@@ -97,5 +126,14 @@ MotorDirection orders_choose_direction(int floor, MotorDirection dirn) {
         } else {
             return DIRN_STOP; // ingen bestillinger, stopp
         }
+    } else if (dirn == DIRN_STOP) {
+        if (ordersAbove) {
+            return DIRN_UP; // start opp hvis det finnes bestillinger over
+        } else if (ordersBelow) {
+            return DIRN_DOWN; // start ned hvis det finnes bestillinger under
+        } else {
+            return DIRN_STOP; // ingen bestillinger, hold deg i ro
+        }
     }
+    return DIRN_STOP; // fallback, bør ikke nås
 }
