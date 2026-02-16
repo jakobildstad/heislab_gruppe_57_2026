@@ -14,7 +14,7 @@ void timer_sleep(int milliseconds);
 
 /**
  * @brief Starts a timer. This function can be used to mark the beginning of a timed operation.
- * 
+ *  
  */
 void timer_start();
 
