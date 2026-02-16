@@ -4,8 +4,6 @@
 static int orders[N_FLOORS][N_BUTTONS];  // privat til denne modulen
 
 void orders_init(void) {
-    // nullstill hele arrayen
-
     for(int i = 0; i < N_FLOORS; i++){
         for(int j = 0; j < N_BUTTONS; j++){
             orders[i][j] = 0;
@@ -29,7 +27,6 @@ void orders_set(int floor, ButtonType button) {
 }
 
 void orders_clear_at_floor(int floor) {
-    // fjern ALLE bestillinger i denne etasjen (alle 3 knappetypene)
     for(int i = 0; i < N_BUTTONS; i++){
         orders[floor][i] = 0;
     }
@@ -52,19 +49,17 @@ int orders_any(void) {
 }
 
 int orders_should_stop(int floor, MotorDirection dirn) {
-    // returner 1 hvis heisen bør stoppe her, gitt retning
-
     if (orders[floor][BUTTON_CAB]) {
-        return 1; // alltid stopp for cab-bestillinger
+        return 1;
     }
-    else if (orders[floor][BUTTON_HALL_DOWN] && dirn == DIRN_DOWN) {
-        return 1; // stopp for hall-down bestillinger når vi kjører ned
+    if (orders[floor][BUTTON_HALL_DOWN] && dirn == DIRN_DOWN) {
+        return 1;
     }
-    else if (orders[floor][BUTTON_HALL_UP] && dirn == DIRN_UP) {
-        return 1; // stopp for hall-up bestillinger når vi kjører opp
+    if (orders[floor][BUTTON_HALL_UP] && dirn == DIRN_UP) {
+        return 1;
     }
 
-    // Stopp hvis det finnes en bestilling her og ingen bestillinger lenger frem
+    // No matching order here — but stop anyway if no orders ahead
     int ordersAhead = 0;
     if (dirn == DIRN_UP) {
         for (int i = floor + 1; i < N_FLOORS; i++)
@@ -80,14 +75,11 @@ int orders_should_stop(int floor, MotorDirection dirn) {
             if (orders[floor][j]) return 1;
     }
 
-    return 0; // ingen grunn til å stoppe
+    return 0;
 
 }
 
 MotorDirection orders_choose_direction(int floor, MotorDirection dirn) {
-    // bestem hvilken retning heisen bør kjøre
-    // sjekk om det finnes bestillinger over/under nåværende etasje
-    // returner DIRN_UP, DIRN_DOWN, eller DIRN_STOP
 
     int ordersAbove = 0;
     int ordersBelow = 0;

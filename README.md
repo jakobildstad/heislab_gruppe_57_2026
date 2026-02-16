@@ -1,7 +1,26 @@
 # Heisprosjekt Gruppe 57 Jakob og Torkel 2026
 
+## Prosjektstruktur
+```
+source/
+  main.c                    Inngang og hovedløkke
+  driver/
+    elevio.c / elevio.h     Hardware-driver (ikke endre)
+    con_load.h              Konfigurasjonslasting
+  modules/
+    fsm.c / fsm.h           Tilstandsmaskin (INIT, IDLE, MOVING, DOOR_OPEN, EMERGENCY_STOP)
+    orders.c / orders.h     Bestillingshåndtering og retningsvalg
+    lights.c / lights.h     Lysstyring (bestillingslys, etasjeindikator)
+    timer.c / timer.h       Tidtaker for dør og sleep
+```
+
+- **fsm** styrer heisens tilstand og kaller de andre modulene
+- **orders** lagrer bestillinger i en 2D-array og bestemmer når heisen skal stoppe/snu
+- **lights** oppdaterer alle lys basert på orders og sensorer (unntatt dør/stopp-lampe som styres av FSM)
+- **timer** tilbyr enkel tidtaking for 3-sekunders dør og loop-sleep
+
 ## Dokumentasjon
-Hver modul i V-diagrammet våres tilsvarer en modul i C (altså en .h og .c fil)
+Hver modul i V-diagrammet tilsvarer en modul i C (altså en .h og .c fil)
 V-diagram: https://lucid.app/lucidchart/af6554d9-918d-4caa-bd1b-52f9e21cc7bc/edit?viewport_loc=-1516%2C1298%2C1150%2C1301%2C0_0&invitationId=inv_f5284a52-c125-4b88-92a1-a448fc3036dc 
 
 For dokumentasjon, skriv

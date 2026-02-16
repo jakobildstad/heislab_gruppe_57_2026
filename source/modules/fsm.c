@@ -35,30 +35,32 @@ void fsm_update(void){
         m_floor = floor;
     }
 
-    // Check for emergency stop from ANY state
+    // Check for emergency stop from ANY state (S4, S5, S6)
     if (elevio_stopButton()) {
         if (m_state != STATE_EMERGENCY_STOP) {
-            elevio_motorDirection(DIRN_STOP);
+            elevio_motorDirection(DIRN_STOP);   // stop motor immediately (S4)
             m_direction = DIRN_STOP;
-            orders_init();                  // clear all orders (S2)
-            lights_update_stop_lamp(1);     // stop lamp on (S2)
-            lights_update();                // clear all order lamps
+            orders_init();                      // clear all orders (S5)
+            lights_update_stop_lamp(1);         // stop lamp on (L6)
+            lights_update();                    // clear order lamps (S5)
 
             if (floor >= 0) {
-                lights_update_door_lamp(1); // open door if at floor (S3)
+                lights_update_door_lamp(1);     // open door if at floor (D3)
             }
 
             m_state = STATE_EMERGENCY_STOP;
         }
-        return; // ignore everything else while stop is held (S4)
+        return; // ignore everything while stop is held (S6)
     }
 
+    // Only poll buttons after initialization (O2)
     if (m_state != STATE_INITIALIZING){
-        orders_update(); // check for new orders from buttons
+        orders_update();
     }
 
     switch (m_state) {
         case STATE_INITIALIZING:
+            // Move up until we reach a known floor (O1)
             if (floor >= 0) {
                 elevio_motorDirection(DIRN_STOP);
                 m_state = STATE_IDLE;
@@ -68,12 +70,13 @@ void fsm_update(void){
             break;
 
         case STATE_IDLE:
+            // Wait for orders, then choose direction (H4)
             if (orders_any()) {
                 m_direction = orders_choose_direction(m_floor, m_direction);
                 if (m_direction == DIRN_STOP) {
-                    // order is at current floor
+                    // Order at current floor — open door directly
                     lights_update_door_lamp(1);
-                    orders_clear_at_floor(m_floor);
+                    orders_clear_at_floor(m_floor);     // (H3)
                     timer_start();
                     m_state = STATE_DOOR_OPEN;
                 } else {
@@ -84,24 +87,27 @@ void fsm_update(void){
             break;
 
         case STATE_MOVING:
+            // Stop and open door when we reach a floor with a matching order
             if (floor >= 0 && orders_should_stop(floor, m_direction)) {
                 elevio_motorDirection(DIRN_STOP);
-                lights_update_door_lamp(1);
-                orders_clear_at_floor(floor);
+                lights_update_door_lamp(1);             // (D1)
+                orders_clear_at_floor(floor);           // (H3)
                 timer_start();
                 m_state = STATE_DOOR_OPEN;
             }
             break;
 
         case STATE_DOOR_OPEN:
+            // Keep door open while obstructed (D4)
             if (elevio_obstruction()) {
-                timer_start(); // restart timer while obstructed (D3/D4)
+                timer_start();
             }
+            // Close door after 3 seconds and choose next action (D1)
             if (timer_ElapsedTime() >= DOOR_OPEN_TIME) {
                 lights_update_door_lamp(0);
                 m_direction = orders_choose_direction(m_floor, m_direction);
                 if (m_direction == DIRN_STOP) {
-                    m_state = STATE_IDLE;
+                    m_state = STATE_IDLE;               // (H4)
                 } else {
                     elevio_motorDirection(m_direction);
                     m_state = STATE_MOVING;
@@ -110,10 +116,10 @@ void fsm_update(void){
             break;
 
         case STATE_EMERGENCY_STOP:
-            // stop button was released — resume
+            // Stop button was released — resume (S7)
             lights_update_stop_lamp(0);
             if (floor >= 0) {
-                timer_start(); // start 3-second timer NOW (D3)
+                timer_start();                          // door stays open 3 more seconds (D3)
                 m_state = STATE_DOOR_OPEN;
             } else {
                 m_state = STATE_INITIALIZING;
@@ -121,5 +127,5 @@ void fsm_update(void){
             break;
     }
 
-    lights_update(); // update all lights based on current orders and floor
+    lights_update();
 }
