@@ -2,6 +2,7 @@
 
 ## Dokumentasjon
 Hver modul i V-diagrammet våres tilsvarer en modul i C (altså en .h og .c fil)
+V-diagram: https://lucid.app/lucidchart/af6554d9-918d-4caa-bd1b-52f9e21cc7bc/edit?viewport_loc=-1516%2C1298%2C1150%2C1301%2C0_0&invitationId=inv_f5284a52-c125-4b88-92a1-a448fc3036dc 
 
 For dokumentasjon, skriv
 ```

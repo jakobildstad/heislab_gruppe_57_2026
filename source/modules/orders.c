@@ -1,5 +1,5 @@
 #include "orders.h"
-#include "driver/elevio.h"
+#include "../driver/elevio.h"
 
 static int orders[N_FLOORS][N_BUTTONS];  // privat til denne modulen
 
