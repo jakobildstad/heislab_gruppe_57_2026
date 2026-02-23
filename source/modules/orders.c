@@ -152,5 +152,6 @@ MotorDirection orders_choose_direction_between_floors(int floor_above) {
         }
         if(ordersBelow) break;
     }
+    return DIRN_STOP; // fallback
 }
 
