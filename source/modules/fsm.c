@@ -19,6 +19,7 @@ static ElevatorState m_state;
 static MotorDirection m_direction;  // remembers current/last direction
 static int m_floor;                 // last known floor
 static int m_floor_above_or_current = -1;      // last known state above current floor
+static MotorDirection m_direction_before_stop; // to remember direction before emergency stop
 
 
 void fsm_init(void){
@@ -44,6 +45,7 @@ void fsm_update(void){
     if (elevio_stopButton() && m_state != STATE_INITIALIZING) {
         if (m_state != STATE_EMERGENCY_STOP) {
             elevio_motorDirection(DIRN_STOP);   // stop motor immediately (S4)
+            m_direction_before_stop = m_direction; // remember direction before stop
             m_direction = DIRN_STOP;
             orders_init();                      // clear all orders (S5)
             lights_update_stop_lamp(1);         // stop lamp on (L6)
@@ -135,7 +137,7 @@ void fsm_update(void){
                 m_state = STATE_DOOR_OPEN;
             } else {
                 // If not at floor
-                if (m_direction == DIRN_UP) {
+                if (m_direction_before_stop == DIRN_UP) {
                     m_floor_above_or_current = m_floor + 1;
                 } else {
                     m_floor_above_or_current = m_floor;
