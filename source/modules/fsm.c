@@ -139,7 +139,7 @@ void fsm_update(void){
                 // If not at floor
                 if (m_direction_before_stop == DIRN_UP) {
                     m_floor_above_or_current = m_floor + 1;
-                } else {
+                } else if (m_direction_before_stop == DIRN_DOWN) {
                     m_floor_above_or_current = m_floor;
                 }
                 m_state = STATE_IDLE;
