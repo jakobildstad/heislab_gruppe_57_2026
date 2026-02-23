@@ -35,8 +35,8 @@ void fsm_update(void){
         m_floor = floor;
     }
 
-    // Check for emergency stop from ANY state (S4, S5, S6)
-    if (elevio_stopButton()) {
+    // Check for emergency stop from ANY state (S4, S5, S6) unless initializing
+    if (elevio_stopButton() && m_state != STATE_INITIALIZING) {
         if (m_state != STATE_EMERGENCY_STOP) {
             elevio_motorDirection(DIRN_STOP);   // stop motor immediately (S4)
             m_direction = DIRN_STOP;
