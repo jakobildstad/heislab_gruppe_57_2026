@@ -61,6 +61,19 @@ int orders_should_stop(int floor, MotorDirection dirn);
  */
 MotorDirection orders_choose_direction(int floor, MotorDirection dirn);
 
+
+/**
+ * @brief Chooses the next direction when between floors, based on pending orders.
+ * 
+ * If there are orders above, returns DIRN_UP. If there are orders below, returns DIRN_DOWN. If no orders, returns DIRN_STOP.
+ * 
+ * @param floor_above The floor above the current position (if moving up) or the current floor (if moving down).
+ * 
+ * @return DIRN_UP, DIRN_DOWN.
+ */
+MotorDirection orders_choose_direction_between_floors(int floor_above);
+
+
 /**
  * @brief Updates the order list by checking the state of all buttons.
  */

@@ -18,6 +18,8 @@ typedef enum {
 static ElevatorState m_state;
 static MotorDirection m_direction;  // remembers current/last direction
 static int m_floor;                 // last known floor
+static int m_floor_above_or_current = -1;      // last known state above current floor
+
 
 void fsm_init(void){
     elevio_init();
@@ -27,6 +29,9 @@ void fsm_init(void){
     m_state = STATE_INITIALIZING;
     m_direction = DIRN_STOP;
     m_floor = -1;
+
+    // after stop:
+    m_floor_above_or_current = -1;
 }
 
 void fsm_update(void){
@@ -72,14 +77,21 @@ void fsm_update(void){
         case STATE_IDLE:
             // Wait for orders, then choose direction (H4)
             if (orders_any()) {
-                m_direction = orders_choose_direction(m_floor, m_direction);
-                if (m_direction == DIRN_STOP) {
-                    // Order at current floor — open door directly
-                    lights_update_door_lamp(1);
-                    orders_clear_at_floor(m_floor);     // (H3)
-                    timer_start();
-                    m_state = STATE_DOOR_OPEN;
+                if (floor >= 0) {
+                    m_direction = orders_choose_direction(m_floor, m_direction);
+                    if (m_direction == DIRN_STOP) {
+                        // Order at current floor — open door directly
+                        lights_update_door_lamp(1);
+                        orders_clear_at_floor(m_floor);     // (H3)
+                        timer_start();
+                        m_state = STATE_DOOR_OPEN;
+                    } else {
+                        elevio_motorDirection(m_direction);
+                        m_state = STATE_MOVING;
+                    }
                 } else {
+                    // If between floors
+                    m_direction = orders_choose_direction_between_floors(m_floor_above_or_current);
                     elevio_motorDirection(m_direction);
                     m_state = STATE_MOVING;
                 }
@@ -122,7 +134,13 @@ void fsm_update(void){
                 timer_start();                          // door stays open 3 more seconds (D3)
                 m_state = STATE_DOOR_OPEN;
             } else {
-                m_state = STATE_INITIALIZING;
+                // If not at floor
+                if (m_direction == DIRN_UP) {
+                    m_floor_above_or_current = m_floor + 1;
+                } else {
+                    m_floor_above_or_current = m_floor;
+                }
+                m_state = STATE_IDLE;
             }
             break;
     }

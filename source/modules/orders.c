@@ -129,3 +129,28 @@ MotorDirection orders_choose_direction(int floor, MotorDirection dirn) {
     }
     return DIRN_STOP; // fallback, bør ikke nås
 }
+
+MotorDirection orders_choose_direction_between_floors(int floor_above) {
+    // Hvis vi er mellom etasjer, velg retning basert på bestillinger i begge retninger
+    int ordersAbove = 0;
+    int ordersBelow = 0;
+    for(int i = floor_above; i < N_FLOORS; i++){
+        for(int j = 0; j < N_BUTTONS; j++){
+            if(orders[i][j]){
+                ordersAbove = 1;
+                return DIRN_UP; // fortsett opp hvis det finnes bestillinger over
+            }
+        }
+        if(ordersAbove) break;
+    }
+    for(int i = floor_above - 1; i >= 0; i--){
+        for(int j = 0; j < N_BUTTONS; j++){
+            if(orders[i][j]){
+                ordersBelow = 1;
+                return DIRN_DOWN; // fortsett ned hvis det finnes bestillinger under
+            }
+        }
+        if(ordersBelow) break;
+    }
+}
+
